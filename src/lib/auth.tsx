@@ -7,6 +7,7 @@ interface AuthContextType {
   doctorId: number | null;
   username: string | null;
   isAuthenticated: boolean;
+  loading: boolean;
   login: (doctorId: number, username: string) => void;
   logout: () => void;
 }
@@ -17,6 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [doctorId, setDoctorId] = useState<number | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUsername(savedUsername);
       setIsAuthenticated(true);
     }
+    setLoading(false);
   }, []);
 
   const login = (doctorId: number, username: string) => {
@@ -73,6 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       username,
       isAuthenticated,
       login,
+      loading,
       logout
     }}>
       {children}
